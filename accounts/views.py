@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.db import IntegrityError
 from .models import Student
 
 
@@ -13,21 +14,42 @@ def register_student(request):
 
         # Check duplicate username
         if User.objects.filter(username=username).exists():
-            return render(request, "student_register.html", {"error": "Username already exists","register_page": True})
+            return render(
+                request,
+                "student_register.html",
+                {"error": "Username already exists", "register_page": True}
+            )
 
-        # Create user
-        user = User.objects.create_user(username=username, password=password)
+        # Check duplicate roll number
+        if Student.objects.filter(roll_no=roll_no).exists():
+            return render(
+                request,
+                "student_register.html",
+                {"error": "Roll number already exists", "register_page": True}
+            )
 
-        # Create Student Profile
-        Student.objects.create(
-            user=user,
-            roll_no=roll_no,
-            department=department
-        )
+        try:
+            user = User.objects.create_user(
+                username=username,
+                password=password
+            )
 
-        return redirect("login")
+            Student.objects.create(
+                user=user,
+                roll_no=roll_no,
+                department=department
+            )
 
-    return render(request, "student_register.html",{"register_page": True})
+            return redirect("login")
+
+        except IntegrityError:
+            return render(
+                request,
+                "student_register.html",
+                {"error": "Student with this roll number already exists", "register_page": True}
+            )
+
+    return render(request, "student_register.html", {"register_page": True})
 
 
 def user_login(request):
@@ -39,9 +61,13 @@ def user_login(request):
 
         if user:
             login(request, user)
-            return redirect("dashboard")
-        else:
-            return render(request, "login.html", {"error": "Invalid username or password"})
+            return redirect(request.GET.get("next", "dashboard"))
+
+        return render(
+            request,
+            "login.html",
+            {"error": "Invalid username or password"}
+        )
 
     return render(request, "login.html")
 
