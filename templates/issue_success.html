@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{% url 'dashboard' %}" class="btn btn-outline-secondary mb-3">
+    ← Back to Dashboard
+</a>
+<div class="alert alert-success">
+    Book issued successfully!
+</div>
+
+<a href=" {% url 'dashboard' %} " class="btn btn-primary">Go to Dashboard</a>
+
+{% endblock %}

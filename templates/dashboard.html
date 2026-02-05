@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Dashboard</h2>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-dark btn-sm">
+            <i class="bi bi-house-door"></i> Home
+        </a>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Books Section -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h4 class="card-title fw-semibold mb-3">Books Management</h4>
+
+                    <a href="{% url 'books_list' %}" class="btn btn-primary w-100 mb-2">
+                        View Books
+                    </a>
+
+                    <a href="{% url 'add_book' %}" class="btn btn-success w-100">
+                        Add New Book
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Issue Section -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h4 class="card-title fw-semibold mb-3">Issue / Return</h4>
+
+                    <a href="{% url 'issue_history' %}" class="btn btn-warning w-100">
+                        Issue History
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+

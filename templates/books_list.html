@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{% url 'dashboard' %}" class="btn btn-outline-secondary mb-3">
+    ← Back to Dashboard
+</a>
+<h2 class="mb-3">Books List</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Issue</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.category }}</td>
+            <td>{{ book.quantity }}</td>
+            <td>
+                {% if book.quantity > 0 %}
+                <a href="/issue/issue/{{ book.id }}/" class="btn btn-primary btn-sm">Issue</a>
+                {% else %}
+                <span class="text-danger">Out of stock</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

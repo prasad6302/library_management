@@ -1,0 +1,9 @@
+<!-- <h2>Book is out of stock!</h2>
+<a href="/">Go Back</a> -->
+{% extends "base.html" %}
+{% block content %}
+<div class="alert alert-danger">
+    Book is out of stock!
+</div>
+<a href="{% url 'dashboard' %}" class="btn btn-primary">Go Back</a>
+{% endblock %}
